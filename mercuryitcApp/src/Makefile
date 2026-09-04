@@ -6,13 +6,17 @@ include $(TOP)/configure/CONFIG
 # Build an Diamond Support Module
 # -------------------------------
 
-#LIBRARY_IOC += xxx
+LIBRARY_IOC += mercuryitc
 
 # xxxRecord.h will be created from xxxRecord.dbd
 #DBDINC += xxx.h
 
-# xxxRecord.dbd will be installed into <top>/dbd
+# mercuryitcRecord.dbd will be installed into <top>/dbd
 #DBD += xxx.dbd
+DBD += mercuryitc.dbd
+mercuryitc_DBD += base.dbd
+mercuryitc_DBD += asyn.dbd
+mercuryitc_DBD += stream.dbd
 
 # The following are compiled and added to the support library
 #xxx_SRCS += xxxCodeA.c
@@ -20,6 +24,7 @@ include $(TOP)/configure/CONFIG
 
 # We need to link against the EPICS Base libraries
 #xxx_LIBS += $(EPICS_BASE_IOC_LIBS)
+mercuryitc_LIBS += $(EPICS_BASE_IOC_LIBS)
 
 
 # ------------------------
