@@ -13,12 +13,7 @@ include $(TOP)/configure/CONFIG
 #
 #DB += motor.template
 #DB += basic_motor.template
-DB += MercuryTemp.template
-DB += MercuryPressure.template
-DB += MercuryLevel.template
-DB += MercuryFlowSPC.template
-DB += MercurySPCAvailable.template
-DB += MercuryVTISPC.template
+DB += $(patsubst ../%, %, $(wildcard ../*.template))
 
 #----------------------------------------------------
 # In a Diamond IOC Application, build db files from
