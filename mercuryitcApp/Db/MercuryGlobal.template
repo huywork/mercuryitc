@@ -1,0 +1,67 @@
+record(bo, "$(P)DISABLE") 
+{
+    field(DESC, "Disable comms")
+    field(PINI, "YES")
+    field(VAL, "$(DISABLE)")
+    field(OMSL, "supervisory")
+    field(ZNAM, "COMMS ENABLED")
+    field(ONAM, "COMMS DISABLED")
+}
+
+record(bo, "$(P)SIM")
+{
+    field(SCAN, "Passive")
+    field(DTYP, "Soft Channel")
+    field(ZNAM, "NO")
+    field(ONAM, "YES")
+    field(PINI, "YES")
+    field(VAL, "$(RECSIM)")
+}
+
+record(waveform, "$(P)CATALOG:_RAW")
+{
+    field(DESC, "Name")
+    field(DTYP, "stream")
+    field(INP,  "@mercuryitc.proto getCatalog $(PORT)")
+    field(NELM, "1024")
+    field(FTVL, "CHAR")
+    field(SCAN, "10 second")
+    field(PINI, "YES")
+    info(archive, "VAL")
+    field(SIML, "$(P)SIM")
+    field(SIOL, "$(P)SIM:CATALOG:_RAW")
+    field(SDIS, "$(P)DISABLE")
+}
+
+record(aSub, "$(P)CATALOG:PARSE") 
+{
+    field(SNAM, "parse_catalog")
+    field(INPA, "$(P)CATALOG:_RAW CP MS")
+    field(FTA, "CHAR")
+    field(NOA, "1024")
+      
+    # Temperature devices
+    field(FTVA, "STRING")
+    field(NOVA, "64")
+      
+    # Pressure devices
+    field(FTVB, "STRING")
+    field(NOVB, "64")
+      
+    # Level devices
+    field(FTVC, "STRING")
+    field(NOVC, "64")
+      
+    # Heater devices
+    field(FTVD, "STRING")
+    field(NOVD, "64")
+      
+    # Auxiliary devices
+    field(FTVE, "STRING")
+    field(NOVE, "64")
+}
+
+record(waveform, "$(P)SIM:CATALOG:_RAW")
+{
+    
+}

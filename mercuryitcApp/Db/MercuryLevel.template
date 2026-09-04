@@ -1,0 +1,136 @@
+# MACROS for IOC
+# P - base name of the IOC including IOC number and panel number
+# BOARD - the mercury control board that this DB is looking at (e.g. MB0)
+
+record(stringin, "$(P)NAME")
+{
+    field(DESC, "Name")
+    field(DTYP, "stream")
+    field(INP,  "@mercuryitc.proto getName($(BOARD),LVL) $(PORT)")
+    field(SCAN, "10 second")
+    info(INTEREST, "MEDIUM")
+    info(archive, "VAL")
+    field(SIML, "$(P)SIM")
+    field(SIOL, "$(P)SIM:NAME")
+    field(SDIS, "$(P)DISABLE")
+}
+alias( "$(P)NAME",  "$(P)NAME:SP:RBV")
+
+record(stringout, "$(P)NAME:SP")
+{
+    field(DESC, "Set the name")
+    field(DTYP, "stream")
+    field(OUT,  "@mercuryitc.proto setName($(BOARD),LVL) $(PORT)")
+    info(archive, "VAL")
+    field(SIML, "$(P)SIM")
+    field(SIOL, "$(P)SIM:NAME:SP")
+    field(SDIS, "$(P)DISABLE")
+}
+
+record(ai, "$(P)HELIUM")
+{
+    field(DESC, "Helium level")
+    field(DTYP, "stream")
+    field(INP,  "@mercuryitc.proto getHeLvl($(BOARD),LVL) $(PORT)")
+    field(PREC, "3")
+    field(SCAN, "5 second")
+    field(EGU, "%")
+    info(INTEREST, "HIGH")
+    info(archive, "VAL")
+    field(SIML, "$(P)SIM")
+    field(SIOL, "$(P)SIM:HELIUM")
+    field(SDIS, "$(P)DISABLE")
+}
+
+record(ai, "$(P)NITROGEN")
+{
+    field(DESC, "Nitrogen level")
+    field(DTYP, "stream")
+    field(INP,  "@mercuryitc.proto getNLvl($(BOARD),LVL) $(PORT)")
+    field(PREC, "3")
+    field(SCAN, "5 second")
+    field(EGU, "%")
+    info(INTEREST, "HIGH")
+    info(archive, "VAL")
+    field(SIML, "$(P)SIM")
+    field(SIOL, "$(P)SIM:NITROGEN")
+    field(SDIS, "$(P)DISABLE")
+}
+
+record(bi, "$(P)HELIUM:READ_RATE")
+{
+    field(DESC, "Helium read rate")
+    field(DTYP, "stream")
+    field(INP,  "@mercuryitc.proto getHeReadRate($(BOARD)) $(PORT)")
+    field(SCAN, "5 second")
+    field(ZNAM, "Slow")
+    field(ONAM, "Fast")
+    info(INTEREST, "MEDIUM")
+    info(archive, "VAL")
+    field(SIML, "$(P)SIM")
+    field(SIOL, "$(P)SIM:HELIUM:READ_RATE")
+    field(SDIS, "$(P)DISABLE")
+}
+alias("$(P)HELIUM:READ_RATE", "$(P)HELIUM:READ_RATE:SP:RBV")
+
+record(bo, "$(P)HELIUM:READ_RATE:SP")
+{
+    field(DESC, "Helium read rate")
+    field(DTYP, "stream")
+    field(OUT,  "@mercuryitc.proto setHeReadRate($(BOARD)) $(PORT)")
+    info(archive, "VAL")
+    field(ZNAM, "Slow")
+    field(ONAM, "Fast")
+    field(SIML, "$(P)SIM")
+    field(SIOL, "$(P)SIM:HELIUM:READ_RATE:SP")
+    field(SDIS, "$(P)DISABLE")
+}
+
+####################
+## DISABLE RECORD ##
+####################
+
+record(bo, "$(P)DISABLE") 
+{
+    field(DESC, "Disable comms")
+    field(PINI, "YES")
+    field(VAL, "$(DISABLE)")
+    field(OMSL, "supervisory")
+    field(ZNAM, "COMMS ENABLED")
+    field(ONAM, "COMMS DISABLED")
+}
+
+########################
+## SIMULATION RECORDS ##
+########################
+
+record(bo, "$(P)SIM")
+{
+    field(SCAN, "Passive")
+    field(DTYP, "Soft Channel")
+    field(ZNAM, "NO")
+    field(ONAM, "YES")
+    field(PINI, "YES")
+    field(VAL, "$(RECSIM)")
+}
+
+record(stringout, "$(P)SIM:NAME")
+{
+}
+alias("$(P)SIM:NAME", "$(P)SIM:NAME:SP")
+alias("$(P)SIM:NAME", "$(P)SIM:NAME:SP:RBV")
+
+record(ao, "$(P)SIM:HELIUM")
+{
+    field(SCAN, "Passive")
+    field(DTYP, "Soft Channel")
+}
+
+record(ao, "$(P)SIM:NITROGEN")
+{
+    field(SCAN, "Passive")
+    field(DTYP, "Soft Channel")
+}
+
+record(bo, "$(P)SIM:HELIUM:READ_RATE"){}
+alias("$(P)SIM:HELIUM:READ_RATE", "$(P)SIM:HELIUM:READ_RATE:SP")

@@ -1,0 +1,665 @@
+# MACROS for IOC
+# P - base name of the IOC including IOC number and panel number
+# BOARD - the mercury control board that this DB is looking at (e.g. MB0)
+
+record(stringin, "$(P)NAME")
+{
+    field(DESC, "Name")
+    field(DTYP, "stream")
+    field(INP,  "@mercuryitc.proto getName($(BOARD),PRES) $(PORT)")
+    field(SCAN, "10 second")
+    info(INTEREST, "MEDIUM")
+    info(archive, "VAL")
+    field(SIML, "$(P)SIM")
+    field(SIOL, "$(P)SIM:NAME")
+    field(SDIS, "$(P)DISABLE")
+}
+alias( "$(P)NAME",  "$(P)NAME:SP:RBV")
+
+record(stringout, "$(P)NAME:SP")
+{
+    field(DESC, "Set the name")
+    field(DTYP, "stream")
+    field(OUT,  "@mercuryitc.proto setName($(BOARD),PRES) $(PORT)")
+    info(archive, "VAL")
+    field(SIML, "$(P)SIM")
+    field(SIOL, "$(P)SIM:NAME:SP")
+    field(SDIS, "$(P)DISABLE")
+}
+
+record(stringin, "$(P)HTRCHAN") {
+    field(DESC, "The HTR channel for this sensor")
+    field(DTYP, "stream")
+    field(INP,  "@mercuryitc.proto getHtrChan($(BOARD),PRES) $(PORT)")
+    field(SCAN, "10 second")
+    field(PINI, "YES")
+    
+    info(INTEREST, "HIGH")
+    info(archive, "VAL")
+    
+    field(SIML, "$(P)SIM")
+    field(SIOL, "$(P)SIM:HTRCHAN")
+    field(SDIS, "$(P)DISABLE")
+}
+
+record(stringout, "$(P)HTRCHAN:SP") {
+    field(DESC, "The HTR channel for this sensor")
+    field(DTYP, "stream")
+    field(OUT,  "@mercuryitc.proto setHtrChan($(BOARD),PRES) $(PORT)")
+    
+    field(ASG, "MANAGER")  # Restrict to manager-mode access only.
+    
+    info(INTEREST, "HIGH")
+    info(archive, "VAL")
+    
+    field(SIML, "$(P)SIM")
+    field(SIOL, "$(P)SIM:HTRCHAN")
+    field(SDIS, "$(P)DISABLE")
+}
+
+record(stringin, "$(P)AUXCHAN") {
+    field(DESC, "The AUX channel for this sensor")
+    field(DTYP, "stream")
+    field(INP,  "@mercuryitc.proto getAuxChan($(BOARD),PRES) $(PORT)")
+    field(SCAN, "10 second")
+    field(PINI, "YES")
+    
+    info(INTEREST, "HIGH")
+    info(archive, "VAL")
+    
+    field(SIML, "$(P)SIM")
+    field(SIOL, "$(P)SIM:AUXCHAN")
+    field(SDIS, "$(P)DISABLE")
+}
+
+record(stringout, "$(P)AUXCHAN:SP") {
+    field(DESC, "The AUX channel for this sensor")
+    field(DTYP, "stream")
+    field(OUT,  "@mercuryitc.proto setAuxChan($(BOARD),PRES) $(PORT)")
+    
+    field(ASG, "MANAGER")  # Restrict to manager-mode access only.
+    
+    info(INTEREST, "HIGH")
+    info(archive, "VAL")
+    
+    field(SIML, "$(P)SIM")
+    field(SIOL, "$(P)SIM:AUXCHAN")
+    field(SDIS, "$(P)DISABLE")
+}
+
+record(stringin, "$(P)CALFILE") {
+    field(DESC, "The calib. file for this sensor")
+    field(DTYP, "stream")
+    field(INP,  "@mercuryitc.proto getCalFile($(BOARD),PRES) $(PORT)")
+    field(SCAN, "10 second")
+    field(PINI, "YES")
+    
+    info(INTEREST, "HIGH")
+    info(archive, "VAL")
+    
+    field(SIML, "$(P)SIM")
+    field(SIOL, "$(P)SIM:CALFILE")
+    field(SDIS, "$(P)DISABLE")
+}
+
+record(stringout, "$(P)CALFILE:SP") {
+    field(DESC, "The calib. file for this sensor")
+    field(DTYP, "stream")
+    field(OUT,  "@mercuryitc.proto setCalFile($(BOARD),PRES) $(PORT)")
+    
+    field(ASG, "MANAGER")
+    
+    info(INTEREST, "HIGH")
+    info(archive, "VAL")
+    
+    field(SIML, "$(P)SIM")
+    field(SIOL, "$(P)SIM:CALFILE")
+    field(SDIS, "$(P)DISABLE")
+}
+
+record(ai, "$(P)PRESSURE")
+{
+    field(DESC, "Pressure")
+    field(DTYP, "stream")
+    field(INP,  "@mercuryitc.proto getPres($(BOARD),PRES) $(PORT)")
+    field(PREC, "3")
+    field(SCAN, "2 second")
+    field(EGU, "mbar")
+    info(INTEREST, "HIGH")
+    info(archive, "VAL")
+    field(SIML, "$(P)SIM")
+    field(SIOL, "$(P)SIM:TEMP")
+    field(SDIS, "$(P)DISABLE")
+}
+
+record(ai, "$(P)PRESSURE:SP:RBV")
+{
+    field(DESC, "Pressure set point")
+    field(DTYP, "stream")
+    field(INP,  "@mercuryitc.proto getPresSp($(BOARD),PRES) $(PORT)")
+    field(PREC, "3")
+    field(SCAN, "5 second")
+    field(EGU, "mbar")
+    field(SIML, "$(P)SIM")
+    field(SIOL, "$(P)SIM:TEMP:SP:RBV")
+    field(SDIS, "$(P)DISABLE")
+}
+
+record(ao, "$(P)PRESSURE:SP")
+{
+    field(DESC, "Pressure Set Point")
+    field(DTYP, "stream")
+    field(OUT,  "@mercuryitc.proto setPresSp($(BOARD),PRES) $(PORT)")
+    field(PREC, "3")
+    field(EGU, "mbar")
+    info(INTEREST, "HIGH")
+    info(archive, "VAL")
+    field(SIML, "$(P)SIM")
+    field(SIOL, "$(P)SIM:TEMP:SP")
+    field(SDIS, "$(P)DISABLE")
+}
+
+record(bi, "$(P)SPC:SP")
+{
+    field(DESC, "Software pressure control status")
+    field(ZNAM, "OFF")
+    field(ONAM, "ON")
+    field(PINI, "YES")
+    field(VAL, 0)
+}
+ 
+record(ai, "$(P)VOLT")
+{
+    field(DESC, "Voltage of the pressure sensor")
+    field(DTYP, "stream")
+    field(INP,  "@mercuryitc.proto getVolt($(BOARD),PRES) $(PORT)")
+    field(PREC, "3")
+    field(SCAN, "5 second")
+    field(EGU, "")
+    field(SIML, "$(P)SIM")
+    field(SIOL, "$(P)SIM:RESISTANCE")
+    field(SDIS, "$(P)DISABLE")
+}
+
+
+
+record(bi, "$(P)PID:AUTO")
+{
+    field(DESC, "PID setting are automatic")
+    field(DTYP, "stream")
+    field(INP,  "@mercuryitc.proto getAutoPid($(BOARD),PRES) $(PORT)")
+    field(SCAN, "5 second")
+    field(ZNAM, "OFF")
+    field(ONAM, "ON")
+    info(INTEREST, "HIGH")
+    info(archive, "VAL")
+    field(SIML, "$(P)SIM")
+    field(SIOL, "$(P)SIM:PID:AUTO")
+    field(SDIS, "$(P)DISABLE")
+}
+alias("$(P)PID:AUTO", "$(P)PID:AUTO:SP:RBV")
+
+record(bo, "$(P)PID:AUTO:SP")
+{
+    field(DESC, "PID setting are automatic")
+    field(DTYP, "stream")
+    field(OUT,  "@mercuryitc.proto setAutoPid($(BOARD),PRES) $(PORT)")
+    field(ZNAM, "OFF")
+    field(ONAM, "ON")
+    info(archive, "VAL")
+    field(SIML, "$(P)SIM")
+    field(SIOL, "$(P)SIM:PID:AUTO:SP")
+    field(SDIS, "$(P)DISABLE")
+}
+
+record(ai, "$(P)P")
+{
+    field(DESC, "P for PID controller readback")
+    field(DTYP, "stream")
+    field(INP,  "@mercuryitc.proto getP($(BOARD),PRES) $(PORT)")
+    field(PREC, "3")
+    field(SCAN, "5 second")
+    field(EGU, "")
+    info(archive, "VAL")
+    field(SIML, "$(P)SIM")
+    field(SIOL, "$(P)SIM:P")
+    field(SDIS, "$(P)DISABLE")
+}
+alias("$(P)P", "$(P)P:SP:RBV")
+
+record(ao, "$(P)P:SP")
+{
+    field(DESC, "P for PID controller")
+    field(DTYP, "stream")
+    field(OUT,  "@mercuryitc.proto setP($(BOARD),PRES) $(PORT)")
+    field(PREC, "3")
+    field(EGU, "")
+    info(archive, "VAL")
+    field(SIML, "$(P)SIM")
+    field(SIOL, "$(P)SIM:P:SP")
+    field(SDIS, "$(P)DISABLE")
+}
+
+record(ai, "$(P)I")
+{
+    field(DESC, "I for PID controller readback")
+    field(DTYP, "stream")
+    field(INP,  "@mercuryitc.proto getI($(BOARD),PRES) $(PORT)")
+    field(PREC, "3")
+    field(SCAN, "5 second")
+    field(EGU, "")
+    info(archive, "VAL")
+    field(SIML, "$(P)SIM")
+    field(SIOL, "$(P)SIM:I")
+    field(SDIS, "$(P)DISABLE")
+}
+alias("$(P)I", "$(P)I:SP:RBV")
+
+record(ao, "$(P)I:SP")
+{
+    field(DESC, "I for PID controller")
+    field(DTYP, "stream")
+    field(OUT,  "@mercuryitc.proto setI($(BOARD),PRES) $(PORT)")
+    field(PREC, "3")
+    field(EGU, "")
+    info(archive, "VAL")
+    field(SIML, "$(P)SIM")
+    field(SIOL, "$(P)SIM:I:SP")
+    field(SDIS, "$(P)DISABLE")
+}
+
+record(ai, "$(P)D")
+{
+    field(DESC, "D for PID controller readback")
+    field(DTYP, "stream")
+    field(INP,  "@mercuryitc.proto getD($(BOARD),PRES) $(PORT)")
+    field(PREC, "3")
+    field(SCAN, "5 second")
+    field(EGU, "")
+    info(archive, "VAL")
+    field(SIML, "$(P)SIM")
+    field(SIOL, "$(P)SIM:D")
+    field(SDIS, "$(P)DISABLE")
+}
+alias("$(P)D", "$(P)D:SP:RBV")
+
+record(ao, "$(P)D:SP")
+{
+    field(DESC, "D for PID controller")
+    field(DTYP, "stream")
+    field(OUT,  "@mercuryitc.proto setD($(BOARD),PRES) $(PORT)")
+    field(PREC, "3")
+    field(EGU, "")
+    info(archive, "VAL")
+    field(SIML, "$(P)SIM")
+    field(SIOL, "$(P)SIM:D:SP")
+    field(SDIS, "$(P)DISABLE")
+}
+
+record(ai, "$(P)HEATER")
+{
+    field(DESC, "Heater % set point readback")
+    field(DTYP, "stream")
+    field(INP,  "@mercuryitc.proto getHtr($(BOARD),PRES) $(PORT)")
+    field(PREC, "3")
+    field(SCAN, "5 second")
+    field(EGU, "%")
+    info(archive, "VAL")
+    field(SIML, "$(P)SIM")
+    field(SIOL, "$(P)SIM:HEATER")
+    field(SDIS, "$(P)DISABLE")
+}
+alias("$(P)HEATER", "$(P)HEATER:SP:RBV")
+
+record(ao, "$(P)HEATER:SP")
+{
+    field(DESC, "Heater % set point")
+    field(DTYP, "stream")
+    field(OUT,  "@mercuryitc.proto setHtr($(BOARD),PRES) $(PORT)")
+    field(PREC, "3")
+    field(EGU, "%")
+    info(archive, "VAL")
+    field(SIML, "$(P)SIM")
+    field(SIOL, "$(P)SIM:HEATER:SP")
+    field(SDIS, "$(P)DISABLE")
+}
+
+record(ao, "$(P)HEATER:VOLT_LIMIT:SP")
+{
+    field(DESC, "Voltage Limit for the heater")
+    field(DTYP, "stream")
+    field(OUT,  "@mercuryitc.proto setHtrVlim($(P)HTRCHAN) $(PORT)")
+    field(PREC, "3")
+    field(EGU, "V")
+    info(archive, "VAL")
+    field(SIML, "$(P)SIM")
+    field(SIOL, "$(P)SIM:HEATER:VOLT_LIMIT:SP")
+    field(SDIS, "$(P)DISABLE")
+}
+
+record(ai, "$(P)HEATER:VOLT_LIMIT")
+{
+    field(DESC, "Voltage Limit for the heater readback")
+    field(DTYP, "stream")
+    field(INP,  "@mercuryitc.proto getHtrVlim($(P)HTRCHAN) $(PORT)")
+    field(PREC, "3")
+    field(SCAN, "5 second")
+    field(EGU, "V")
+    info(archive, "VAL")
+    field(SIML, "$(P)SIM")
+    field(SIOL, "$(P)SIM:HEATER:VOLT_LIMIT")
+    field(SDIS, "$(P)DISABLE")
+}
+alias("$(P)HEATER:VOLT_LIMIT", "$(P)HEATER:VOLT_LIMIT:SP:RBV")
+
+record(ai, "$(P)HEATER:POWER")
+{
+    field(DESC, "Power used by the heater")
+    field(DTYP, "stream")
+    field(INP,  "@mercuryitc.proto getHtrPowr($(P)HTRCHAN) $(PORT)")
+    field(PREC, "3")
+    field(SCAN, "5 second")
+    field(EGU, "W")
+    info(INTEREST, "MEDIUM")
+    info(archive, "VAL")
+    field(SIML, "$(P)SIM")
+    field(SIOL, "$(P)SIM:HEATER:POWER")
+    field(SDIS, "$(P)DISABLE")
+}
+
+record(ai, "$(P)HEATER:VOLT")
+{
+    field(DESC, "Voltage on the heater")
+    field(DTYP, "stream")
+    field(INP,  "@mercuryitc.proto getHtrVolt($(P)HTRCHAN) $(PORT)")
+    field(PREC, "3")
+    field(SCAN, "5 second")
+    field(EGU, "V")
+    field(SIML, "$(P)SIM")
+    field(SIOL, "$(P)SIM:HEATER:VOLT")
+    field(SDIS, "$(P)DISABLE")
+}
+
+record(calc, "$(P)HEATER:VOLT_PRCNT")
+{
+    field(DESC, "% of voltage limit used")
+    field(PREC, "3")
+    field(EGU,  "%")
+    field(INPA, "$(P)HEATER:VOLT CP MSS")
+    field(INPB, "$(P)HEATER:VOLT_LIMIT CP MSS")
+    field(CALC, "B > 0 ? (A / B) * 100 : 0")
+}
+
+record(ai, "$(P)HEATER:CURR")
+{
+    field(DESC, "Current on the heater")
+    field(DTYP, "stream")
+    field(INP,  "@mercuryitc.proto getHtrCurr($(P)HTRCHAN) $(PORT)")
+    field(PREC, "3")
+    field(SCAN, "5 second")
+    field(EGU, "A")
+    field(SIML, "$(P)SIM")
+    field(SIOL, "$(P)SIM:HEATER:CURR")
+    field(SDIS, "$(P)DISABLE")
+}
+
+record(bi, "$(P)HEATER:MODE") {
+    field(DESC, "Heater mode readback")
+    field(DTYP, "stream")
+    field(INP, "@mercuryitc.proto getHtrMode($(BOARD),PRES) $(PORT)")
+    field(SCAN, "5 second")
+    field(ZNAM, "Manual")
+    field(ONAM, "Auto")
+    info(INTEREST, "HIGH")
+    info(archive, "VAL")
+    
+    field(SIML, "$(P)SIM")
+    field(SIOL, "$(P)SIM:HEATER:MODE")
+    field(SDIS, "$(P)DISABLE")
+}
+
+record(bo, "$(P)HEATER:MODE:SP") {
+    field(DESC, "Heater mode setpoint")
+    field(ZNAM, "Manual")
+    field(ONAM, "Auto")
+    field(DTYP, "stream")
+    field(OUT, "@mercuryitc.proto setHtrMode($(BOARD),PRES) $(PORT)")
+    info(archive, "VAL")
+    
+    
+    field(SIML, "$(P)SIM")
+    field(SIOL, "$(P)SIM:HEATER:MODE:SP")
+    field(SDIS, "$(P)DISABLE")
+}
+
+alias("$(P)HEATER:MODE", "$(P)HEATER:MODE:SP:RBV")
+
+record(ai, "$(P)FLOW")
+{
+    field(DESC, "Gas flow % setpoint readback'")
+    field(DTYP, "stream")
+    field(INP,  "@mercuryitc.proto getGasFlow($(P)AUXCHAN) $(PORT)")
+    field(PREC, "3")
+    field(SCAN, "5 second")
+    field(EGU, "%")
+    field(SIML, "$(P)SIM")
+    field(SIOL, "$(P)SIM:FLOW")
+    field(SDIS, "$(P)DISABLE")
+}
+
+record(ao, "$(P)FLOW:SP")
+{
+    field(DESC, "Gas flow % setpoint")
+    field(DTYP, "stream")
+    field(OUT,  "@mercuryitc.proto setGasFlow($(BOARD),PRES) $(PORT)")
+    field(PREC, "3")
+    field(EGU, "%")
+    info(archive, "VAL")
+    field(SIML, "$(P)SIM")
+    field(SIOL, "$(P)SIM:FLOW:SP")
+    field(SDIS, "$(P)DISABLE")
+}
+alias("$(P)FLOW", "$(P)FLOW:SP:RBV")
+
+record(bi, "$(P)FLOW:STAT")
+{
+    field(DESC, "Flow Auto")
+    field(DTYP, "stream")
+    field(INP,  "@mercuryitc.proto getGasFlowMode($(BOARD),PRES) $(PORT)")
+    field(SCAN, "5 second")
+    field(ZNAM, "Manual")
+    field(ONAM, "Auto")
+    info(INTEREST, "HIGH")
+    info(archive, "VAL")
+    field(SIML, "$(P)SIM")
+    field(SIOL, "$(P)SIM:FLOW:STAT")
+    field(SDIS, "$(P)DISABLE")
+}
+
+alias("$(P)FLOW:STAT", "$(P)FLOW:STAT:SP:RBV")
+
+record(bo, "$(P)FLOW:STAT:SP")
+{
+    field(DESC, "Gas Flow Control Status")
+    field(DTYP, "stream")
+    field(OUT,  "@mercuryitc.proto setGasFlowMode($(BOARD),PRES) $(PORT)")
+    field(ZNAM, "Manual")
+    field(ONAM, "Auto")
+    info(archive, "VAL")    
+    field(SIML, "$(P)SIM")
+    field(SIOL, "$(P)SIM:FLOW:STAT:SP PP")
+    field(SDIS, "$(P)DISABLE")
+}
+
+####################
+## DISABLE RECORD ##
+####################
+
+record(bo, "$(P)DISABLE") 
+{
+    field(DESC, "Disable comms")
+    field(PINI, "YES")
+    field(VAL, "$(DISABLE)")
+    field(OMSL, "supervisory")
+    field(ZNAM, "COMMS ENABLED")
+    field(ONAM, "COMMS DISABLED")
+}
+
+########################
+## SIMULATION RECORDS ##
+########################
+
+record(bo, "$(P)SIM")
+{
+    field(SCAN, "Passive")
+    field(DTYP, "Soft Channel")
+    field(ZNAM, "NO")
+    field(ONAM, "YES")
+    field(PINI, "YES")
+    field(VAL, "$(RECSIM)")
+}
+
+record(stringout, "$(P)SIM:NAME")
+{
+}
+alias("$(P)SIM:NAME", "$(P)SIM:NAME:SP")
+alias("$(P)SIM:NAME", "$(P)SIM:NAME:SP:RBV")
+
+record(ao, "$(P)SIM:TEMP")
+{
+    field(SCAN, "Passive")
+    field(DTYP, "Soft Channel")
+}
+alias("$(P)SIM:TEMP", "$(P)SIM:TEMP:SP")
+alias("$(P)SIM:TEMP", "$(P)SIM:TEMP:SP:RBV")
+
+record(ao, "$(P)SIM:VOLT")
+{
+    field(SCAN, "Passive")
+    field(DTYP, "Soft Channel")
+}
+
+record(ao, "$(P)SIM:ITERATIONS")
+{
+    field(SCAN, "Passive")
+    field(DTYP, "Soft Channel")
+}
+
+record(bo, "$(P)SIM:PID:AUTO")
+{
+    field(SCAN, "Passive")
+    field(DTYP, "Soft Channel")
+    field(ZNAM, "OFF")
+    field(ONAM, "ON")
+}
+alias("$(P)SIM:PID:AUTO", "$(P)SIM:PID:AUTO:SP")
+alias("$(P)SIM:PID:AUTO", "$(P)SIM:PID:AUTO:SP:RBV")
+
+record(ao, "$(P)SIM:P")
+{
+    field(SCAN, "Passive")
+    field(DTYP, "Soft Channel")
+}
+alias("$(P)SIM:P", "$(P)SIM:P:SP")
+alias("$(P)SIM:P", "$(P)SIM:P:SP:RBV")
+
+record(ao, "$(P)SIM:I")
+{
+    field(SCAN, "Passive")
+    field(DTYP, "Soft Channel")
+}
+alias("$(P)SIM:I", "$(P)SIM:I:SP")
+alias("$(P)SIM:I", "$(P)SIM:I:SP:RBV")
+
+record(ao, "$(P)SIM:D")
+{
+    field(SCAN, "Passive")
+    field(DTYP, "Soft Channel")
+}
+alias("$(P)SIM:D", "$(P)SIM:D:SP")
+alias("$(P)SIM:D", "$(P)SIM:D:SP:RBV")
+
+record(ao, "$(P)SIM:HEATER")
+{
+    field(SCAN, "Passive")
+    field(DTYP, "Soft Channel")
+}
+alias("$(P)SIM:HEATER", "$(P)SIM:HEATER:SP")
+alias("$(P)SIM:HEATER", "$(P)SIM:HEATER:SP:RBV")
+
+record(ao, "$(P)SIM:HEATER:VOLT_LIMIT")
+{
+    field(SCAN, "Passive")
+    field(DTYP, "Soft Channel")
+}
+alias("$(P)SIM:HEATER:VOLT_LIMIT", "$(P)SIM:HEATER:VOLT_LIMIT:SP")
+alias("$(P)SIM:HEATER:VOLT_LIMIT", "$(P)SIM:HEATER:VOLT_LIMIT:SP:RBV")
+
+record(ao, "$(P)SIM:HEATER:POWER")
+{
+    field(SCAN, "Passive")
+    field(DTYP, "Soft Channel")
+}
+
+record(ao, "$(P)SIM:HEATER:VOLT")
+{
+    field(SCAN, "Passive")
+    field(DTYP, "Soft Channel")
+}
+
+record(ao, "$(P)SIM:HEATER:CURR")
+{
+    field(SCAN, "Passive")
+    field(DTYP, "Soft Channel")
+}
+
+record(bo, "$(P)SIM:HEATER:MODE")
+{
+    field(SCAN, "Passive")
+    field(DTYP, "Soft Channel")
+    field(ZNAM, "Manual")
+    field(ONAM, "Auto")
+}
+
+alias("$(P)SIM:HEATER:MODE", "$(P)SIM:HEATER:MODE:SP")
+
+record(ao, "$(P)SIM:FLOW")
+{
+    field(SCAN, "Passive")
+    field(DTYP, "Soft Channel")
+}
+alias("$(P)SIM:FLOW", "$(P)SIM:FLOW:SP")
+alias("$(P)SIM:FLOW", "$(P)SIM:FLOW:SP:RBV")
+
+record(bo, "$(P)SIM:FLOW:STAT")
+{
+    field(SCAN, "Passive")
+    field(DTYP, "Soft Channel")
+    field(ZNAM, "Manual")
+    field(ONAM, "Automatic")
+}
+
+alias("$(P)SIM:FLOW:STAT", "$(P)SIM:FLOW:STAT:SP")
+alias("$(P)SIM:FLOW:STAT:SP", "$(P)SIM:FLOW:STAT:SP:RBV")
+
+record(calcout, "$(P)SIM:FLOW:STAT:CALC")
+{
+    field(CALC, "!A")
+    field(OUT, "$(P)SIM:FLOW:STAT PP")
+}
+
+record(ao, "$(P)SIM:HELIUM")
+{
+    field(SCAN, "Passive")
+    field(DTYP, "Soft Channel")
+}
+
+record(ao, "$(P)SIM:NITROGEN")
+{
+    field(SCAN, "Passive")
+    field(DTYP, "Soft Channel")
+}
+
+record(stringout, "$(P)SIM:AUXCHAN") {}
+record(stringout, "$(P)SIM:HTRCHAN") {}
+record(stringout, "$(P)SIM:CALFILE") {}

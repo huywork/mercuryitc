@@ -1,0 +1,26 @@
+# MACROS for IOC
+# P - base name of the IOC 
+# TEMP_CARD - temperature card number
+# IFFLOW_SPC_PRESSURE - # not available blank available
+# IFNOTFLOW_SPC_PRESSURE - # available blank not available
+# IFVTI_SPC_PRESSURE - # not available, blank if available
+# IFNOTVTI_SPC_PRESSURE - # if available, blank if not available
+
+
+record(bi, "$(P)$(TEMP_CARD):SPC:AVAILABLE")
+{
+    field(DESC, "Is Flow Full Auto available")
+    $(IFNOTFLOW_SPC_PRESSURE_$(TEMP_CARD)) field(VAL, "0")
+    $(IFFLOW_SPC_PRESSURE_$(TEMP_CARD)) field(VAL, "1")
+    field(ZNAM, "NO")
+    field(ONAM, "YES")
+}
+
+record(bi, "$(P)$(TEMP_CARD):VTI_SPC:AVAILABLE")
+{
+    field(DESC, "VTI Software Pressure Control available")
+    $(IFNOTVTI_SPC_PRESSURE_$(TEMP_CARD)) field(VAL, "0")
+    $(IFVTI_SPC_PRESSURE_$(TEMP_CARD)) field(VAL, "1")
+    field(ZNAM, "NO")
+    field(ONAM, "YES")
+}

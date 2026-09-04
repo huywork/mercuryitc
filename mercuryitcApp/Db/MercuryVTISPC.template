@@ -1,0 +1,163 @@
+# MACROS for IOC
+# P - base name for IOC
+# TEMP_CARD - To control the pressure from
+# PRESSURE_CARD -  To control the pressure of
+# PRESSURE_CARD_ID - Identifier of controlled card
+# MIN_PRESSURE - Minimum allowed pressure setpoint
+# MAX_PRESSURE - Maximum allowed pressure setpoint
+# PRESSURE_CONSTANT - Pressure set to this when below cutoff point
+# PRESSURE_MAX_LKUP - Lookup table file to calc pressure when above cutoff
+# CALIB_BASE_DIR - Base directory for lookup files
+# SDIR - Directory containing lookup files
+# TEMP_CUTOFF_POINT - Point to switch between lookup and constant
+# TEMP_SCALE - Scaling factor for pressure law calculations
+# SET_DELAY - Time to wait after setting a new pressure setpoint
+# RECSIM - IOC in RECSIM mode
+# DISABLE - Disable IOC
+
+record(mbbo, "$(P)$(TEMP_CARD):VTI_SPC:STATEMACHINE:STATE")
+{
+    field(DESC, "Statemachine state")
+    field(ZRST, "init")
+    field(ONST, "calc_new_sp")
+    field(TWST, "set_delay")
+    field(THST, "polling_delay")
+    field(FRST, "error_delay")
+}
+
+record(bo, "$(P)$(TEMP_CARD):VTI_SPC:STATEMACHINE:STATUS")
+{
+    field(DESC, "Whether the statemachine is enabled")
+    field(ZNAM, "Off")
+    field(ONAM, "On")
+}
+
+record(mbbo, "$(P)$(TEMP_CARD):VTI_SPC:STATEMACHINE:ERROR")
+{
+    field(DESC, "Confguration errors for VTI SPC")
+    field(ZRST, "No errors")
+    field(ZRSV, "NO_ALARM")
+
+    field(ONST, "Min Pressure > Max")
+    field(ONSV, "INVALID")
+
+    field(TWST, "Temp read failure")
+
+    field(TWSV, "MINOR")
+
+    field(THST, "Invalid pressure card")
+    field(THSV, "MINOR")
+
+    field(PINI, "YES")
+
+    info(interest, "HIGH")
+    info(archive, "VAL SEVR")
+    info(alarm, "VTISPC")
+}
+
+record(stringin, "$(P)$(TEMP_CARD):VTI_SPC:PRESSURE_ID")
+{
+    field(DESC, "ID of controlled pressure card")
+    field(VAL,  "$(PRESSURE_CARD_ID)")
+    field(PINI, "YES")
+}
+
+record(stringin, "$(P)$(TEMP_CARD):VTI_SPC:PRESSURE_CARD")
+{
+    field(DESC, "Index of controlled pressure card")
+    field(VAL,  "$(PRESSURE_CARD)")
+    field(PINI, "YES")
+}
+
+record(ao, "$(P)$(TEMP_CARD):VTI_SPC:SET_DELAY")
+{
+    field(DESC, "Delay between pressure sp updates")
+    field(VAL,  "$(SET_DELAY)")
+    field(PINI, "YES")
+    field(EGU, "s")
+
+}
+
+record(ao, "$(P)$(TEMP_CARD):VTI_SPC:POLL_DELAY")
+{
+    field(DESC, "Delay when pressure not changed")
+    field(VAL,  "1")
+    field(PINI, "YES")
+    field(EGU, "s")
+
+}
+
+record(ao, "$(P)$(TEMP_CARD):VTI_SPC:ERROR_DELAY")
+{
+    field(DESC, "Delay when temp readback fails")
+    field(VAL,  "5")
+    field(PINI, "YES")
+    field(EGU, "s")
+
+}
+
+record(ao, "$(P)$(TEMP_CARD):VTI_SPC:TEMP:CUTOFF")
+{
+    field(DESC, "Constant vs linear interpolation switch")
+    field(VAL,  "$(TEMP_CUTOFF_POINT)")
+    field(PINI, "YES")
+    field(PREC, "3")
+    field(EGU, "K")
+}
+
+record(ao, "$(P)$(TEMP_CARD):VTI_SPC:TEMP:SCALE")
+{
+    field(DESC, "Scaling factor for temp calculations")
+    field(VAL,  "$(TEMP_SCALE)")
+    field(PINI, "YES")
+}
+
+record(ao, "$(P)$(TEMP_CARD):VTI_SPC:PRESSURE:SP:MIN")
+{
+    field(DESC, "Minimum pressure allowed by user")
+    field(VAL,  "$(MIN_PRESSURE)")
+    field(PINI, "YES")
+    field(PREC, "3")
+    field(EGU, "mbar")
+}
+
+record(ao, "$(P)$(TEMP_CARD):VTI_SPC:PRESSURE:SP:MAX")
+{
+    field(DESC, "Maximum pressure allowed by user")
+    field(VAL,  "$(MAX_PRESSURE)")
+    field(PINI, "YES")
+    field(PREC, "3")
+    field(EGU, "mbar")
+}
+
+record(stringout, "$(P)$(TEMP_CARD):VTI_SPC:PRESSURE:SP:MAX:LKUP:FILE")
+{
+    field(DESC, "Filename of lookup table")
+    field(VAL,  "$(PRESSURE_MAX_LKUP=None.txt)")
+    field(PINI, "YES")
+}
+
+record(cvt, "$(P)$(TEMP_CARD):VTI_SPC:PRESSURE:SP:MAX:LKUP")
+{
+    field(SCAN, "Passive")
+    field(DESC, "Max pressure based on temp lookup")
+    field(INPX, "$(P)$(TEMP_CARD):TEMP CP MSS")
+    field(METH, "1D TABLE")
+    field(SPEC, "$(PRESSURE_MAX_LKUP=None.txt)")
+    field(TDIR, "$(SDIR)")
+    field(BDIR, "$(CALIB_BASE_DIR)")
+    field(PREC, "3")
+    field(EGU, "mbar")
+    info(archive, "VAL")
+}
+
+record(ao, "$(P)$(TEMP_CARD):VTI_SPC:PRESSURE:CONST")
+{
+    field(DESC, "Constant pressure used when below cutoff")
+    field(VAL,  "$(PRESSURE_CONSTANT)")
+    field(PINI, "YES")
+    field(PREC, "3")
+    field(EGU, "mbar")
+}
+
+alias("$(P)PRESSURE:$(PRESSURE_CARD):PRESSURE:SP", $(P)$(TEMP_CARD):VTI_SPC:PRESSURE:SP:RBV)

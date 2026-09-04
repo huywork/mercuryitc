@@ -1,0 +1,142 @@
+# MACROS for IOC
+# P - base name of the IOC 
+# TEMP_CARD - to control flow for 
+# PRESSURE_CARD - pressure card to control
+# TEMP_DEADBAND - deadband for temperature comparison
+# MIN_PRESSURE - minimum pressure allowed
+# MAX_PRESSURE - maximum pressure allowed
+# OFFSET - offset to add before ramping down from here when stable
+# OFFSET_DURATION - duration in minutes over which to ramp down
+# TIMEPV - pv to give a time 
+# GAIN - gain term for large temperatures
+
+
+record(bi, "$(P)$(TEMP_CARD):SPC")
+{
+    field(DESC, "Flow Full Auto ISIS impl")
+    field(INP, "$(P)$(TEMP_CARD):SPC:SP")
+    field(ZNAM, "OFF")
+    field(ZSV, "MAJOR")
+    field(ONAM, "ON")
+    field(OSV, "NO_ALARM")
+    field(PINI, "YES")
+    info(INTEREST, "HIGH")
+    info(archive, "VAL")
+    field(FLNK, "$(P)$(TEMP_CARD):SPC:SET_")
+}
+
+record(bo, "$(P)$(TEMP_CARD):SPC:SP")
+{
+    field(DESC, "Flow Full Auto ISIS impl")
+    field(ZNAM, "OFF")
+    field(ONAM, "ON")
+    field(PINI, "NO")
+    info(archive, "VAL")
+    field(FLNK, "$(P)$(TEMP_CARD):SPC:SEL")
+    info(autosaveFields, "VAL")
+}
+
+alias("$(P)$(TEMP_CARD):SPC:SP", "$(P)$(TEMP_CARD):SPC:SP:RBV")
+
+record(seq, "$(P)$(TEMP_CARD):SPC:SEQ_")
+{
+    field(DESC, "Setup mercury for full auto mode")
+    field(DOL1, "1")  # ON
+    field(LNK1, "$(P)$(TEMP_CARD):PID:AUTO:SP PP")
+    field(DOL2, "0") # Maunal
+    field(LNK2, "$(P)$(TEMP_CARD):FLOW:STAT:SP PP")
+    field(DOL3, "1") # Auto
+    field(LNK3, "$(P)$(TEMP_CARD):HEATER:MODE:SP PP")
+    field(DOL4, "1")  # Auto
+    field(LNK4, "$(P)PRESSURE:$(PRESSURE_CARD):FLOW:STAT:SP PP")
+}
+
+record(calcout, "$(P)$(TEMP_CARD):SPC:SEL")
+{
+    field(DESC, "Only run sequence if it is on")
+    field(INPA, "$(P)$(TEMP_CARD):SPC:SP")
+    field(CALC, "A")
+    field(OOPT, "When Non-zero")
+    field(OUT, "$(P)$(TEMP_CARD):SPC:SEQ_.PROC")
+    field(FLNK, "$(P)$(TEMP_CARD):SPC")
+}
+
+
+record(cvt, "$(P)$(TEMP_CARD):SPC:TARGET")
+{
+  field(DESC, "Calculate pressure from calib file")
+  field(SCAN, "Passive")
+  field(PREC, "2")
+  field(EGU, "mbar")
+  field(INPX, "$(P)$(TEMP_CARD):TEMP:SP:RBV")
+  field(METH, "1D TABLE USER SUB")
+  field(SPEC, "$(SPC_TABLE_FILE)")
+  field(TDIR, "$(CALIB_DIR)")
+  field(BDIR, "$(CALIB_BASE_DIR)")
+  info(INTEREST, "LOW")
+  field(FLNK, "$(P)$(TEMP_CARD):PRESSURE_CALC")
+}
+
+record(aSub, "$(P)$(TEMP_CARD):PRESSURE_CALC")
+{
+    field(SCAN, "2 second")
+    #disable the record when full auto is off (0)
+    field(SDIS, "$(P)$(TEMP_CARD):SPC:SP")
+    field(DISV, 0)
+    
+    field(SNAM, "calcPressure")    
+
+    field(INPA, "$(P)$(TEMP_CARD):TEMP")
+    field(FTA, "DOUBLE")
+    field(INPB, "$(P)$(TEMP_CARD):TEMP:SP:RBV")  # read back from device so that when restarted prop term is right
+    field(FTB, "DOUBLE")
+    field(INPC, "$(TEMP_DEADBAND)")
+    field(FTC, "DOUBLE")
+    field(INPD, "$(MIN_PRESSURE)")
+    field(FTD, "DOUBLE")
+    field(INPE, "$(MAX_PRESSURE)")
+    field(FTE, "DOUBLE")
+    field(INPF, "$(OFFSET)")
+    field(FTF, "DOUBLE")
+    field(INPG, "$(OFFSET_DURATION)")
+    field(FTG, "DOUBLE")
+    field(INPH, "$(TIMEPV)")
+    field(FTH, "DOUBLE")
+    field(INPI, "$(P)$(TEMP_CARD):RAMP_START_TIME")  # ramp start time
+    field(FTI, "DOUBLE")
+    field(INPJ, "$(GAIN)")
+    field(FTJ, "DOUBLE")
+    field(INPK, "$(P)$(TEMP_CARD):SPC:TARGET PP")
+    field(FTK, "DOUBLE")
+
+    field(INPL, "$(P)$(TEMP_CARD):TEMP.SEVR")
+    field(FTL, "ENUM")
+    field(INPM, "$(P)$(TEMP_CARD):TEMP:SP:RBV.SEVR") 
+    field(FTM, "ENUM")
+    field(INPN, "$(P)$(TEMP_CARD):SPC:TARGET.SEVR") 
+    field(FTN, "ENUM")    
+    
+    field(OUTA, "$(P)PRESSURE:$(PRESSURE_CARD):PRESSURE:SP PP")
+    field(FTVA, "DOUBLE")
+    field(OUTB, "$(P)$(TEMP_CARD):RAMP_START_TIME PP")
+    field(FTVB, "DOUBLE")
+}
+
+record(ai, "$(P)$(TEMP_CARD):RAMP_START_TIME")
+{
+    field(DESC, "Ramp start time")
+    field(PINI, "YES")
+    field(VAL, 0)  # Start at zero this only effects the ramp which it is best to assume has finished.
+    
+}
+
+# For the OPI alias the pressure into the temp card
+alias("$(P)PRESSURE:$(PRESSURE_CARD):PRESSURE:SP", "$(P)$(TEMP_CARD):SPC:PRESSURE")
+
+# Set that pressure is under control of full auto
+record(bo,  "$(P)$(TEMP_CARD):SPC:SET_") {
+    field(DESC, "Copy full auto value to pressure card")
+    field(DOL, "$(P)$(TEMP_CARD):SPC")
+    field(OMSL, "closed_loop")
+    field(OUT, "$(P)PRESSURE:$(PRESSURE_CARD):SPC:SP PP")
+}
