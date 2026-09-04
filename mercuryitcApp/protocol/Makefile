@@ -9,4 +9,3 @@ DATA += $(patsubst ../%, %, $(wildcard ../*.proto))
 
 include $(TOP)/configure/RULES
 endif
-

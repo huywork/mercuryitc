@@ -1,0 +1,240 @@
+Terminator = LF;
+
+ReplyTimeout = 2000;
+ReadTimeout = 1000;
+WriteTimeout = 1000;
+LockTimeout = 30000;
+
+# System-wide commands
+
+getCatalog {
+    out "READ:SYS:CAT";
+    in "STAT:SYS:CAT:%1024c";
+}
+
+# Channel metadata
+
+getName {
+    out "READ:DEV:\$1:\$2:NICK";
+    in "STAT:DEV:\$1:\$2:NICK:%s";
+}
+
+setName {
+    out "SET:DEV:\$1:\$2:NICK:%s";
+    in "STAT:SET:DEV:\$1:\$2:NICK:%*[^:]:VALID";
+}
+
+getHtrChan {
+    out "READ:DEV:\$1:\$2:LOOP:HTR";
+    in "STAT:DEV:\$1:\$2:LOOP:HTR:%s";
+}
+
+setHtrChan {
+    out "SET:DEV:\$1:\$2:LOOP:HTR:%s";
+    in "STAT:SET:DEV:\$1:\$2:LOOP:HTR:%*[^:]:VALID";
+}
+
+getAuxChan {
+    out "READ:DEV:\$1:\$2:LOOP:AUX";
+    in "STAT:DEV:\$1:\$2:LOOP:AUX:%s";
+}
+
+setAuxChan {
+    out "SET:DEV:\$1:\$2:LOOP:AUX:%s";
+    in "STAT:SET:DEV:\$1:\$2:LOOP:AUX:%*[^:]:VALID";
+}
+
+# Calibration files
+
+getCalFile {
+    out "READ:DEV:\$1:\$2:CAL:FILE";
+    in "STAT:DEV:\$1:\$2:CAL:FILE:%#s";
+}
+
+setCalFile {
+    out "SET:DEV:\$1:\$2:CAL:FILE:%#s";
+    in "STAT:SET:DEV:\$1:\$2:CAL:FILE:%*[^:]:VALID";
+}
+
+# PID parameters
+
+getAutoPid {
+    out "READ:DEV:\$1:\$2:LOOP:PIDT";
+    in "STAT:DEV:\$1:\$2:LOOP:PIDT:%{OFF|ON}";
+}
+
+setAutoPid {
+    out "SET:DEV:\$1:\$2:LOOP:PIDT:%{OFF|ON}";
+    in "STAT:SET:DEV:\$1:\$2:LOOP:PIDT:%*{OFF|ON}:VALID";
+}
+
+getP {
+    out "READ:DEV:\$1:\$2:LOOP:P";
+    in "STAT:DEV:\$1:\$2:LOOP:P:%f";
+}
+
+setP {
+    out "SET:DEV:\$1:\$2:LOOP:P:%f";
+    in "STAT:SET:DEV:\$1:\$2:LOOP:P:%*f:VALID";
+}
+
+getI {
+    out "READ:DEV:\$1:\$2:LOOP:I";
+    in "STAT:DEV:\$1:\$2:LOOP:I:%f";
+}
+
+setI {
+    out "SET:DEV:\$1:\$2:LOOP:I:%f";
+    in "STAT:SET:DEV:\$1:\$2:LOOP:I:%*f:VALID";
+}
+
+getD {
+    out "READ:DEV:\$1:\$2:LOOP:D";
+    in "STAT:DEV:\$1:\$2:LOOP:D:%f";
+}
+
+setD {
+    out "SET:DEV:\$1:\$2:LOOP:D:%f";
+    in "STAT:SET:DEV:\$1:\$2:LOOP:D:%*f:VALID";
+}
+
+# Temperatures
+
+getTemp {
+    out "READ:DEV:\$1:\$2:SIG:TEMP";
+    in "STAT:DEV:\$1:\$2:SIG:TEMP:%fK";
+}
+
+getTempSp {
+    out "READ:DEV:\$1:\$2:LOOP:TSET";
+    in "STAT:DEV:\$1:\$2:LOOP:TSET:%fK";
+}
+
+setTempSp {
+    out "SET:DEV:\$1:\$2:LOOP:TSET:%fK";
+    in "STAT:SET:DEV:\$1:\$2:LOOP:TSET:%fK:VALID";
+}
+
+# Pressures
+
+getPres {
+    out "READ:DEV:\$1:\$2:SIG:PRES";
+    in "STAT:DEV:\$1:\$2:SIG:PRES:%fmB";
+}
+
+getPresSp {
+    out "READ:DEV:\$1:\$2:LOOP:PRST";
+    in "STAT:DEV:\$1:\$2:LOOP:PRST:%fmB";
+}
+
+setPresSp {
+    # This is intentionally assymetric with getPresSp - the device requires sending PRST but
+    # internally uses TSET and this is what we have to query on a read.
+    out "SET:DEV:\$1:\$2:LOOP:PRST:%fmB";
+    in "STAT:SET:DEV:\$1:\$2:LOOP:PRST:%fmB:VALID";
+}
+
+# Raw sensor readings
+
+getRes {
+    # Resistance is only used for temperature cards
+    out "READ:DEV:\$1:\$2:SIG:RES";
+    in "STAT:DEV:\$1:\$2:SIG:RES:%f%*s";
+}
+
+getVolt {
+    # Voltage is only used for pressure cards
+    out "READ:DEV:\$1:\$2:SIG:VOLT";
+    in "STAT:DEV:\$1:\$2:SIG:VOLT:%f%*s";
+}
+
+# Heater
+
+getHtrMode {
+    out "READ:DEV:\$1:\$2:LOOP:ENAB";
+    in "STAT:DEV:\$1:\$2:LOOP:ENAB:%{OFF|ON}";
+}
+
+setHtrMode {
+    out "SET:DEV:\$1:\$2:LOOP:ENAB:%{OFF|ON}";
+    in "STAT:SET:DEV:\$1:\$2:LOOP:ENAB:%*{OFF|ON}:VALID";
+}
+
+getHtr {
+    out "READ:DEV:\$1:\$2:LOOP:HSET";
+    in "STAT:DEV:\$1:\$2:LOOP:HSET:%f";
+}
+
+setHtr {
+    out "SET:DEV:\$1:\$2:LOOP:HSET:%f";
+    in "STAT:SET:DEV:\$1:\$2:LOOP:HSET:%*f:VALID";
+}
+
+getHtrVolt {
+    out "READ:DEV:%(\$1)s:HTR:SIG:VOLT";
+    in "STAT:DEV:%*[^:]:HTR:SIG:VOLT:%fV";
+}
+
+getHtrCurr {
+    out "READ:DEV:%(\$1)s:HTR:SIG:CURR";
+    in "STAT:DEV:%*[^:]:HTR:SIG:CURR:%fA";
+}
+
+getHtrPowr {
+    out "READ:DEV:%(\$1)s:HTR:SIG:POWR";
+    in "STAT:DEV:%*[^:]:HTR:SIG:POWR:%fW";
+}
+
+getHtrVlim {
+    out "READ:DEV:%(\$1)s:HTR:VLIM";
+    in "STAT:DEV:%*[^:]:HTR:VLIM:%f";
+}
+
+setHtrVlim {
+    out "SET:DEV:%(\$1)s:HTR:VLIM:%f";
+    in "STAT:SET:DEV:%*[^:]:HTR:VLIM:%*f:VALID";
+}
+
+# Gas flow
+
+getGasFlowMode {
+    out "READ:DEV:\$1:\$2:LOOP:FAUT";
+    in "STAT:DEV:\$1:\$2:LOOP:FAUT:%{OFF|ON}";
+}
+
+setGasFlowMode {
+    out "SET:DEV:\$1:\$2:LOOP:FAUT:%{OFF|ON}";
+    in "STAT:SET:DEV:\$1:\$2:LOOP:FAUT:%*{OFF|ON}:VALID";
+}
+
+getGasFlow {
+    out "READ:DEV:%(\$1)s:AUX:SIG:PERC";
+    in "STAT:DEV:%*[^:]:AUX:SIG:PERC:%f%%";
+}
+
+setGasFlow {
+    out "SET:DEV:\$1:\$2:LOOP:FSET:%f";
+    in "STAT:SET:DEV:\$1:\$2:LOOP:FSET:%*f:VALID";
+}
+
+# Gas levels
+
+getHeLvl {
+    out "READ:DEV:\$1:LVL:SIG:HEL:LEV";
+    in "STAT:DEV:\$1:LVL:SIG:HEL:LEV:%f\%";
+}
+
+getNLvl {
+    out "READ:DEV:\$1:LVL:SIG:NIT:LEV";
+    in "STAT:DEV:\$1:LVL:SIG:NIT:LEV:%f\%";
+}
+
+getHeReadRate {
+    out "READ:DEV:\$1:LVL:HEL:PULS:SLOW";
+    in "STAT:DEV:\$1:LVL:HEL:PULS:SLOW:%{ON|OFF}";
+}
+
+setHeReadRate {
+    out "SET:DEV:\$1:LVL:HEL:PULS:SLOW:%{1|0}";
+    in "STAT:SET:DEV:\$1:LVL:HEL:PULS:SLOW:%*{ON|0|OFF|1}:VALID";
+}
