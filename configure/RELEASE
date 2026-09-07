@@ -29,9 +29,10 @@
 # If using the sequencer, point SNCSEQ at its top directory:
 #SNCSEQ = $(MODULES)/seq-ver
 
-SUPPORT=/dls_sw/prod/R3.14.12.7/support 
+SUPPORT=/dls_sw/prod/R3.14.12.7/support
+
 ASYN=$(SUPPORT)/asyn/4-41dls2
-STREAMS=$(SUPPORT)/streamDevice/2-5dls14
+STREAMDEVICE=$(SUPPORT)/streamDevice/2-5dls14
 
 # EPICS_BASE should appear last so earlier modules can override stuff:
 EPICS_BASE = /dls_sw/epics/R3.14.12.7/base

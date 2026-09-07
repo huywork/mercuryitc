@@ -1,11 +1,9 @@
-
-
 from iocbuilder import AutoSubstitution
 from iocbuilder.modules.streamDevice import AutoProtocol
 
-class mercuryitc(AutoSubstitution, AutoProtocol):
+class MercuryTemp(AutoSubstitution, AutoProtocol):
     # Substitution attributes
-    TemplateFile = 'mercuryitc.template'
+    TemplateFile = 'MercuryTemp.template'
 
     # AutoProtocol attributes
     ProtocolFiles = ['mercuryitc.proto']

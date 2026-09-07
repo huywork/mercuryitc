@@ -1,6 +1,15 @@
-# MACROS for IOC
-# P - base name of the IOC including IOC number and panel number
-# BOARD - the mercury control board that this DB is looking at (e.g. MB0)
+################################################################
+#
+# % macro, __doc__, MercuryiTC temperature sensor support
+#
+# Macros:
+# % macro, P, Base prefix for the IOC/device PVs
+# % macro, BOARD, Mercury control board (e.g. MB0)
+# % macro, PORT, Asyn port connected to the Mercury controller
+# % macro, DISABLE, Initial value of the communications disable record
+# % macro, RECSIM, Initial value of the simulation record
+#
+################################################################
 
 record(stringin, "$(P)NAME")
 {
