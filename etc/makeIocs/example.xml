@@ -5,7 +5,7 @@
         port="172.23.111.180:7001"
         simulation="localhost:9001"/>
 
-    <MercuryTemp.MercuryTemp
+    <mercuryitc.MercuryTemp
         P="TESTMERCURY"
         BOARD="MB0"
         PORT="mercuryitcAsyn"
