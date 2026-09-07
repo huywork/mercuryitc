@@ -1,3 +1,14 @@
 <?xml version="1.0" ?>
 <components arch="linux-x86_64">
+    <asyn.AsynIP
+        name="mercuryitcAsyn"
+        port="172.23.111.180:7001"
+        simulation="localhost:9001"/>
+
+    <MercuryTemp.MercuryTemp
+        P="TESTMERCURY"
+        BOARD="MB0"
+        PORT="mercuryitcAsyn"
+        DISABLE="0"
+        RECSIM="0"/>
 </components>
