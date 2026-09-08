@@ -209,7 +209,7 @@ setGasFlowMode {
 
 getGasFlow {
     out "READ:DEV:%(\$1)s:AUX:SIG:PERC";
-    in "STAT:DEV:%*[^:]:AUX:SIG:PERC:%f%%";
+    in "STAT:DEV:%*[^:]:AUX:SIG:PERC:%f\%";
 }
 
 setGasFlow {
