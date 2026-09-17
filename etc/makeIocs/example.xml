@@ -2,7 +2,7 @@
 <components arch="linux-x86_64">
     <asyn.AsynIP
         name="mercuryitcAsyn"
-        port="10.111.8.7:7001"
+        port="10.111.8.7:7020"
         simulation="localhost:9001"/>
 
     <mercuryitc.MercuryTemp
