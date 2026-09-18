@@ -5,10 +5,19 @@
         port="10.111.8.7:7020"
         simulation="localhost:9001"/>
 
+    <mercuryitc.MercuryGlobal
+        P="TESTMERCURY"
+        PORT="mercuryitcAsyn"
+        DISABLE="0"
+        RECSIM="0"/>
+
+    
+    <!--
     <mercuryitc.MercuryTemp
         P="TESTMERCURY"
         BOARD="MB0"
         PORT="mercuryitcAsyn"
         DISABLE="0"
         RECSIM="0"/>
+    -->
 </components>
