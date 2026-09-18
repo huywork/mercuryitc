@@ -1,3 +1,12 @@
+################################################################
+#
+# % macro, __doc__, MercuryiTC global support
+#
+# Macros:
+# % macro, P, Base prefix for the IOC/device PVs
+#
+################################################################
+
 record(bo, "$(P)DISABLE") 
 {
     field(DESC, "Disable comms")
