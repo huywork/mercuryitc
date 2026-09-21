@@ -18,15 +18,15 @@ DBD += mercuryitc.dbd
 # mercuryitc.dbd will be created from these files
 mercuryitc_DBD += base.dbd
 mercuryitc_DBD += asyn.dbd
-lakeshore340_DBD += drvVxi11.dbd
+mercuryitc_DBD += drvVxi11.dbd
 mercuryitc_DBD += stream.dbd
+mercuryitc_DBD += parse_catalog.dbd
 
 #Include files
 #INC += xxx.h
 
 # The following are compiled and added to the support library
-#xxx_SRCS += xxxCodeA.c
-#xxx_SRCS += xxxCodeB.c
+mercuryitc_SRCS += parse_catalog.c
 
 # We need to link against the EPICS Base libraries
 #xxx_LIBS += $(EPICS_BASE_IOC_LIBS)
