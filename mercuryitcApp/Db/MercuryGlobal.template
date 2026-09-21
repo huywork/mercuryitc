@@ -4,6 +4,9 @@
 #
 # Macros:
 # % macro, P, Base prefix for the IOC/device PVs
+# % macro, PORT, Asyn port connected to the Mercury controller
+# % macro, DISABLE, Initial value of the communications disable record
+# % macro, RECSIM, Initial value of the simulation record
 #
 ################################################################
 

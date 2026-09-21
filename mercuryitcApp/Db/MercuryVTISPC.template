@@ -1,19 +1,25 @@
-# MACROS for IOC
-# P - base name for IOC
-# TEMP_CARD - To control the pressure from
-# PRESSURE_CARD -  To control the pressure of
-# PRESSURE_CARD_ID - Identifier of controlled card
-# MIN_PRESSURE - Minimum allowed pressure setpoint
-# MAX_PRESSURE - Maximum allowed pressure setpoint
-# PRESSURE_CONSTANT - Pressure set to this when below cutoff point
-# PRESSURE_MAX_LKUP - Lookup table file to calc pressure when above cutoff
-# CALIB_BASE_DIR - Base directory for lookup files
-# SDIR - Directory containing lookup files
-# TEMP_CUTOFF_POINT - Point to switch between lookup and constant
-# TEMP_SCALE - Scaling factor for pressure law calculations
-# SET_DELAY - Time to wait after setting a new pressure setpoint
-# RECSIM - IOC in RECSIM mode
-# DISABLE - Disable IOC
+################################################################
+#
+# % macro, __doc__, MercuryiTC temperature sensor support
+#
+# Macros:
+# % macro, P, base name for IOC
+# % macro, TEMP_CARD, To control the pressure from
+# % macro, PRESSURE_CARD,  To control the pressure of
+# % macro, PRESSURE_CARD_ID, Identifier of controlled card
+# % macro, MIN_PRESSURE, Minimum allowed pressure setpoint
+# % macro, MAX_PRESSURE, Maximum allowed pressure setpoint
+# % macro, PRESSURE_CONSTANT - Pressure set to this when below cutoff point
+# % macro, PRESSURE_MAX_LKUP - Lookup table file to calc pressure when above cutoff
+# % macro, CALIB_BASE_DIR - Base directory for lookup files
+# % macro, SDIR - Directory containing lookup files
+# % macro, TEMP_CUTOFF_POINT - Point to switch between lookup and constant
+# % macro, TEMP_SCALE - Scaling factor for pressure law calculations
+# % macro, SET_DELAY - Time to wait after setting a new pressure setpoint
+# % macro, RECSIM - IOC in RECSIM mode
+# % macro, DISABLE - Disable IOC
+#
+################################################################
 
 record(mbbo, "$(P)$(TEMP_CARD):VTI_SPC:STATEMACHINE:STATE")
 {

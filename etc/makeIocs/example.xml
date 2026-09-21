@@ -5,19 +5,135 @@
         port="10.111.8.7:7020"
         simulation="localhost:9001"/>
 
+    <!--
+        P - base name of the IOC 
+        TEMP_CARD, to control flow for 
+        PRESSURE_CARD, pressure card to control
+        TEMP_DEADBAND, deadband for temperature comparison
+        MIN_PRESSURE, minimum pressure allowed
+        MAX_PRESSURE, maximum pressure allowed
+        OFFSET, offset to add before ramping down from here when stable
+        OFFSET_DURATION, duration in minutes over which to ramp down
+        TIMEPV, pv to give a time 
+        GAIN, gain term for large temperatures
+        SPC_TABLE_FILE, Calibration/table file
+        CALIB_DIR, Calibration directory
+        CALIB_BASE_DIR, Calibration base directory
+    -->
+    <mercuryitc.MercuryFlow
+        P="TESTMERCURY"
+        TEMP_CARD="TEMP_CARD"
+        PRESSURE_CARD="PRESSURE_CARD"
+        TEMP_DEADBAND="0.1"
+        MIN_PRESSURE="0.0"
+        MAX_PRESSURE="100.0"
+        OFFSET="0.0"
+        OFFSET_DURATION="5"
+        TIMEPV="TESTMERCURY:TIME"
+        GAIN="1.0"
+        SPC_TABLE_FILE="calibration/table.txt"
+        CALIB_DIR="calibration"
+        CALIB_BASE_DIR="calibration/base"/> 
+
+    <!--
+        P, Base prefix for the IOC/device PVs
+        PORT, Asyn port connected to the Mercury controller
+        DISABLE, Initial value of the communications disable record
+        RECSIM, Initial value of the simulation record
+    -->
     <mercuryitc.MercuryGlobal
         P="TESTMERCURY"
         PORT="mercuryitcAsyn"
         DISABLE="0"
         RECSIM="0"/>
 
-    
     <!--
-    <mercuryitc.MercuryTemp
+        P, Base prefix for the IOC/device PVs
+        BOARD, Mercury control board (e.g. MB0)
+        PORT, Asyn port connected to the Mercury controller
+        DISABLE, Initial value of the communications disable record
+        RECSIM, Initial value of the simulation record
+    -->
+    <mercuryitc.MercuryLevel
+        P="TESTMERCURY"
+        PORT="mercuryitcAsyn"
+        DISABLE="0"
+        RECSIM="0"/>
+
+    <!--
+        P, Base prefix for the IOC/device PVs
+        BOARD, Mercury control board (e.g. MB0)
+        PORT, Asyn port connected to the Mercury controller
+        DISABLE, Initial value of the communications disable record
+        RECSIM, Initial value of the simulation record
+    -->
+    <mercuryitc.MercuryPressure
         P="TESTMERCURY"
         BOARD="MB0"
         PORT="mercuryitcAsyn"
         DISABLE="0"
-        RECSIM="0"/>
+        RECSIM="0"/> 
+
+    <!--
+        P, base name of the IOC 
+        TEMP_CARD, temperature card number
+        IFFLOW_SPC_PRESSURE, # not available blank available
+        IFNOTFLOW_SPC_PRESSURE, # available blank not available
+        IFVTI_SPC_PRESSURE, # not available, blank if available
+        IFNOTVTI_SPC_PRESSURE, # if available, blank if not available
     -->
+    <mercuryitc.MercurySPCAvailable
+        TEMP_CARD="TEMP_CARD"
+        IFFLOW_SPC_PRESSURE="IFFLOW_SPC_PRESSURE"
+        IFNOTFLOW_SPC_PRESSURE="IFNOTFLOW_SPC_PRESSURE"
+        IFVTI_SPC_PRESSURE="IFVTI_SPC_PRESSURE"
+        IFNOTVTI_SPC_PRESSURE="IFNOTVTI_SPC_PRESSURE"> 
+
+    <!--
+        P, Base prefix for the IOC/device PVs
+        BOARD, Mercury control board (e.g. MB0)
+        PORT, Asyn port connected to the Mercury controller
+        DISABLE, Initial value of the communications disable record
+        RECSIM, Initial value of the simulation record
+    --> 
+    <mercuryitc.MercuryTemp
+        PORT="mercuryitcAsyn"
+        BOARD="MB0"
+        DISABLE="0"
+        RECSIM="0"/> 
+
+    <!--
+        P, base name for IOC
+        TEMP_CARD, To control the pressure from
+        PRESSURE_CARD,  To control the pressure of
+        PRESSURE_CARD_ID, Identifier of controlled card
+        MIN_PRESSURE, Minimum allowed pressure setpoint
+        MAX_PRESSURE, Maximum allowed pressure setpoint
+        PRESSURE_CONSTANT, Pressure set to this when below cutoff point
+        PRESSURE_MAX_LKUP, Lookup table file to calc pressure when above cutoff
+        CALIB_BASE_DIR, Base directory for lookup files
+        SDIR, Directory containing lookup files
+        TEMP_CUTOFF_POINT, Point to switch between lookup and constant
+        TEMP_SCALE, Scaling factor for pressure law calculations
+        SET_DELAY, Time to wait after setting a new pressure setpoint
+        RECSIM, IOC in RECSIM mode
+        DISABLE, Disable IOC
+    -->
+    <mercuryitc.MercuryVTISPC.template
+        P="TESTMERCURY"
+        TEMP_CARD="TEMP_CARD"
+        PRESSURE_CARD="PRESSURE_CARD"
+        PRESSURE_CARD_ID="PRESSURE_CARD_ID"
+        MIN_PRESSURE="MIN_PRESSURE"
+        MAX_PRESSURE="MAX_PRESSURE"
+        PRESSURE_CONSTANT="PRESSURE_CONSTANT"
+        PRESSURE_MAX_LKUP="PRESSURE_MAX_LKUP"
+        CALIB_BASE_DIR="CALIB_BASE_DIR"
+        SDIR="SDIR"
+        TEMP_CUTOFF_POINT="TEMP_CUTOFF_POINT"
+        TEMP_SCALE="TEMP_SCALE"
+        SET_DELAY="SET_DELAY"
+        RECSIM="RECSIM"
+        DISABLE="DISABLE"/> 
+
 </components>

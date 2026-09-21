@@ -1,10 +1,16 @@
-# MACROS for IOC
-# P - base name of the IOC 
-# TEMP_CARD - temperature card number
-# IFFLOW_SPC_PRESSURE - # not available blank available
-# IFNOTFLOW_SPC_PRESSURE - # available blank not available
-# IFVTI_SPC_PRESSURE - # not available, blank if available
-# IFNOTVTI_SPC_PRESSURE - # if available, blank if not available
+################################################################
+#
+# % macro, __doc__, MercuryiTC global support
+#
+# Macros:
+# % macro, P, base name of the IOC 
+# % macro, TEMP_CARD, temperature card number
+# % macro, IFFLOW_SPC_PRESSURE, # not available blank available
+# % macro, IFNOTFLOW_SPC_PRESSURE, # available blank not available
+# % macro, IFVTI_SPC_PRESSURE, # not available, blank if available
+# % macro, IFNOTVTI_SPC_PRESSURE, # if available, blank if not available
+#
+################################################################
 
 
 record(bi, "$(P)$(TEMP_CARD):SPC:AVAILABLE")

@@ -1,15 +1,23 @@
-# MACROS for IOC
-# P - base name of the IOC 
-# TEMP_CARD - to control flow for 
-# PRESSURE_CARD - pressure card to control
-# TEMP_DEADBAND - deadband for temperature comparison
-# MIN_PRESSURE - minimum pressure allowed
-# MAX_PRESSURE - maximum pressure allowed
-# OFFSET - offset to add before ramping down from here when stable
-# OFFSET_DURATION - duration in minutes over which to ramp down
-# TIMEPV - pv to give a time 
-# GAIN - gain term for large temperatures
-
+################################################################
+#
+# % macro, __doc__, MercuryiTC flow sensor support
+#
+# Macros:
+# % macro, P, base name of the IOC 
+# % macro, TEMP_CARD, to control flow for 
+# % macro, PRESSURE_CARD, pressure card to control
+# % macro, TEMP_DEADBAND, deadband for temperature comparison
+# % macro, MIN_PRESSURE, minimum pressure allowed
+# % macro, MAX_PRESSURE, maximum pressure allowed
+# % macro, OFFSET, offset to add before ramping down from here when stable
+# % macro, OFFSET_DURATION, duration in minutes over which to ramp down
+# % macro, TIMEPV, pv to give a time 
+# % macro, GAIN, gain term for large temperatures
+# % macro, SPC_TABLE_FILE, Calibration/table file
+# % macro, CALIB_DIR, Calibration directory
+# % macro, CALIB_BASE_DIR, Calibration base directory
+#
+################################################################
 
 record(bi, "$(P)$(TEMP_CARD):SPC")
 {
