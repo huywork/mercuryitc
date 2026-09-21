@@ -16,8 +16,6 @@
 # % macro, TEMP_CUTOFF_POINT - Point to switch between lookup and constant
 # % macro, TEMP_SCALE - Scaling factor for pressure law calculations
 # % macro, SET_DELAY - Time to wait after setting a new pressure setpoint
-# % macro, RECSIM - IOC in RECSIM mode
-# % macro, DISABLE - Disable IOC
 #
 ################################################################
 

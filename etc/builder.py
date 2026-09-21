@@ -3,7 +3,7 @@ from iocbuilder.modules.streamDevice import AutoProtocol
 
 class MercuryFlow(AutoSubstitution, AutoProtocol):
     # Substitution attributes
-    TemplateFile = 'MercuryFlow.template'
+    TemplateFile = 'MercuryFlowSPC.template'
 
     # AutoProtocol attributes
     ProtocolFiles = ['mercuryitc.proto']

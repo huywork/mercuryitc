@@ -56,6 +56,7 @@
     -->
     <mercuryitc.MercuryLevel
         P="TESTMERCURY"
+        BOARD="MB0"
         PORT="mercuryitcAsyn"
         DISABLE="0"
         RECSIM="0"/>
@@ -83,11 +84,12 @@
         IFNOTVTI_SPC_PRESSURE, # if available, blank if not available
     -->
     <mercuryitc.MercurySPCAvailable
+        P="TESTMERCURY"
         TEMP_CARD="TEMP_CARD"
-        IFFLOW_SPC_PRESSURE="IFFLOW_SPC_PRESSURE"
-        IFNOTFLOW_SPC_PRESSURE="IFNOTFLOW_SPC_PRESSURE"
-        IFVTI_SPC_PRESSURE="IFVTI_SPC_PRESSURE"
-        IFNOTVTI_SPC_PRESSURE="IFNOTVTI_SPC_PRESSURE"> 
+        IFFLOW_SPC_PRESSURE_TEMP_CARD="IFFLOW_SPC_PRESSURE"
+        IFNOTFLOW_SPC_PRESSURE_TEMP_CARD="IFNOTFLOW_SPC_PRESSURE"
+        IFVTI_SPC_PRESSURE_TEMP_CARD="IFVTI_SPC_PRESSURE"
+        IFNOTVTI_SPC_PRESSURE_TEMP_CARD="IFNOTVTI_SPC_PRESSURE"/>
 
     <!--
         P, Base prefix for the IOC/device PVs
@@ -97,6 +99,7 @@
         RECSIM, Initial value of the simulation record
     --> 
     <mercuryitc.MercuryTemp
+        P="TESTMERCURY"
         PORT="mercuryitcAsyn"
         BOARD="MB0"
         DISABLE="0"
@@ -116,10 +119,8 @@
         TEMP_CUTOFF_POINT, Point to switch between lookup and constant
         TEMP_SCALE, Scaling factor for pressure law calculations
         SET_DELAY, Time to wait after setting a new pressure setpoint
-        RECSIM, IOC in RECSIM mode
-        DISABLE, Disable IOC
     -->
-    <mercuryitc.MercuryVTISPC.template
+    <mercuryitc.MercuryVTISPC
         P="TESTMERCURY"
         TEMP_CARD="TEMP_CARD"
         PRESSURE_CARD="PRESSURE_CARD"
@@ -132,8 +133,6 @@
         SDIR="SDIR"
         TEMP_CUTOFF_POINT="TEMP_CUTOFF_POINT"
         TEMP_SCALE="TEMP_SCALE"
-        SET_DELAY="SET_DELAY"
-        RECSIM="RECSIM"
-        DISABLE="DISABLE"/> 
+        SET_DELAY="SET_DELAY"/> 
 
 </components>
