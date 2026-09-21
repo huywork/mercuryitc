@@ -1,4 +1,5 @@
 from iocbuilder import AutoSubstitution
+from iocbuilder.device import Device
 from iocbuilder.modules.streamDevice import AutoProtocol
 
 '''
@@ -10,12 +11,19 @@ class MercuryFlow(AutoSubstitution, AutoProtocol):
     ProtocolFiles = ['mercuryitc.proto']
 '''
 
+class MercuryITCLibrary(Device):
+    AutoInstantiate = True
+    LibFileList = ['mercuryitc']
+    DbdFileList = ['mercuryitc']
+
 class MercuryGlobal(AutoSubstitution, AutoProtocol):
     # Substitution attributes
     TemplateFile = 'MercuryGlobal.template'
 
     # AutoProtocol attributes
     ProtocolFiles = ['mercuryitc.proto']
+
+    Dependencies = (MercuryITCLibrary,)
 
 '''
 class MercuryLevel(AutoSubstitution, AutoProtocol):
