@@ -33,6 +33,15 @@ class MercurySPCAvailable(AutoSubstitution, AutoProtocol):
     # Substitution attributes
     TemplateFile = 'MercurySPCAvailable.template'
 
+    Arguments = [
+        'P',
+        'TEMP_CARD',
+        'IFFLOW_SPC_PRESSURE',
+        'IFNOTFLOW_SPC_PRESSURE',
+        'IFVTI_SPC_PRESSURE',
+        'IFNOTVTI_SPC_PRESSURE',
+    ]
+
     # AutoProtocol attributes
     ProtocolFiles = ['mercuryitc.proto']
 
