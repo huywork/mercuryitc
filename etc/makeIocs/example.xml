@@ -20,7 +20,6 @@
         CALIB_DIR, Calibration directory
         CALIB_BASE_DIR, Calibration base directory
     -->
-    <!--
     <mercuryitc.MercuryFlow
         P="TESTMERCURY"
         TEMP_CARD="TEMP_CARD"
@@ -35,7 +34,6 @@
         SPC_TABLE_FILE="calibration/table.txt"
         CALIB_DIR="calibration"
         CALIB_BASE_DIR="calibration/base"/> 
-    -->
 
     <!--
         P, Base prefix for the IOC/device PVs
@@ -56,14 +54,13 @@
         DISABLE, Initial value of the communications disable record
         RECSIM, Initial value of the simulation record
     -->
-    <!--
     <mercuryitc.MercuryLevel
         P="TESTMERCURY"
         BOARD="MB0"
         PORT="mercuryitcAsyn"
         DISABLE="0"
         RECSIM="0"/>
-    -->
+
     <!--
         P, Base prefix for the IOC/device PVs
         BOARD, Mercury control board (e.g. MB0)
@@ -71,14 +68,13 @@
         DISABLE, Initial value of the communications disable record
         RECSIM, Initial value of the simulation record
     -->
-    <!--
     <mercuryitc.MercuryPressure
         P="TESTMERCURY"
         BOARD="MB0"
         PORT="mercuryitcAsyn"
         DISABLE="0"
         RECSIM="0"/> 
-    -->
+
     <!--
         P, base name of the IOC 
         TEMP_CARD, temperature card number
@@ -87,7 +83,6 @@
         IFVTI_SPC_PRESSURE, # not available, blank if available
         IFNOTVTI_SPC_PRESSURE, # if available, blank if not available
     -->
-    <!--
     <mercuryitc.MercurySPCAvailable
         P="TESTMERCURY"
         TEMP_CARD="TEMP_CARD"
@@ -95,7 +90,7 @@
         IFNOTFLOW_SPC_PRESSURE="IFNOTFLOW_SPC_PRESSURE_TEMP_CARD"
         IFVTI_SPC_PRESSURE="IFVTI_SPC_PRESSURE_TEMP_CARD"
         IFNOTVTI_SPC_PRESSURE="IFNOTVTI_SPC_PRESSURE_TEMP_CARD"/>
-    -->
+
     <!--
         P, Base prefix for the IOC/device PVs
         BOARD, Mercury control board (e.g. MB0)
@@ -103,14 +98,13 @@
         DISABLE, Initial value of the communications disable record
         RECSIM, Initial value of the simulation record
     --> 
-    <!--
     <mercuryitc.MercuryTemp
         P="TESTMERCURY"
         PORT="mercuryitcAsyn"
         BOARD="MB0"
         DISABLE="0"
         RECSIM="0"/> 
-    -->
+
     <!--
         P, base name for IOC
         TEMP_CARD, To control the pressure from
@@ -126,7 +120,6 @@
         TEMP_SCALE, Scaling factor for pressure law calculations
         SET_DELAY, Time to wait after setting a new pressure setpoint
     -->
-    <!--
     <mercuryitc.MercuryVTISPC
         P="TESTMERCURY"
         TEMP_CARD="TEMP_CARD"
@@ -141,5 +134,4 @@
         TEMP_CUTOFF_POINT="TEMP_CUTOFF_POINT"
         TEMP_SCALE="TEMP_SCALE"
         SET_DELAY="SET_DELAY"/> 
-    -->
 </components>

@@ -21,12 +21,14 @@ mercuryitc_DBD += asyn.dbd
 mercuryitc_DBD += drvVxi11.dbd
 mercuryitc_DBD += stream.dbd
 mercuryitc_DBD += parse_catalog.dbd
+mercuryitc_DBD += full_auto.dbd
 
 #Include files
 #INC += xxx.h
 
 # The following are compiled and added to the support library
 mercuryitc_SRCS += parse_catalog.c
+mercuryitc_SRCS += full_auto.c
 
 # We need to link against the EPICS Base libraries
 #xxx_LIBS += $(EPICS_BASE_IOC_LIBS)
