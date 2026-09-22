@@ -22,6 +22,7 @@ mercuryitc_DBD += drvVxi11.dbd
 mercuryitc_DBD += stream.dbd
 mercuryitc_DBD += parse_catalog.dbd
 mercuryitc_DBD += full_auto.dbd
+mercuryitc_DBD += $(CSM)/dbd/cvtRecord.dbd
 
 #Include files
 #INC += xxx.h
@@ -32,6 +33,8 @@ mercuryitc_SRCS += full_auto.c
 
 # We need to link against the EPICS Base libraries
 #xxx_LIBS += $(EPICS_BASE_IOC_LIBS)
+mercuryitc_LIBS += cvtRecord
+mercuryitc_LIBS += csmbase
 mercuryitc_LIBS += $(EPICS_BASE_IOC_LIBS)
 
 # The following adds object code from base/src/vxWorks
